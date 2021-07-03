@@ -14,9 +14,7 @@ var _hasura = require("./util/hasura");
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 const handler = async () => {
-  const {
-    movies
-  } = await (0, _hasura.query)({
+  const result = await (0, _hasura.query)({
     query: `query AllMovies { 
   movies {
     id
@@ -30,7 +28,7 @@ const handler = async () => {
   const api = new _url.URL('https://www.omdbapi.com/'); // eslint-disable-next-line no-undef
 
   api.searchParams.set('apiKey', process.env.OMDB_API_KEY);
-  const promises = movies.map(movie => {
+  const promises = result.movies.map(movie => {
     api.searchParams.set('i', movie.id);
     return (0, _nodeFetch.default)(api).then(response => response.json()).then(data => {
       const scores = data.Ratings;

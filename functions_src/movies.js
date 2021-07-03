@@ -3,7 +3,7 @@ import fetch from 'node-fetch'
 import { query } from './util/hasura'
 
 export const handler = async () => {
-  const { movies } = await query({
+  const result = await query({
     query: `query AllMovies { 
   movies {
     id
@@ -18,7 +18,7 @@ export const handler = async () => {
   // eslint-disable-next-line no-undef
   api.searchParams.set('apiKey', process.env.OMDB_API_KEY)
 
-  const promises = movies.map((movie) => {
+  const promises = result.movies.map((movie) => {
     api.searchParams.set('i', movie.id)
     return fetch(api)
       .then((response) => response.json())
